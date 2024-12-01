@@ -11,6 +11,18 @@ func delete_at_index(slice []int, index int) []int {
     return append(slice[:index], slice[index+1:]...)
 }
 
+func minFind(arr []int) int {
+	min := arr[0]
+	minIndex := 0
+	for point, num1 := range arr {
+	   if num1 < min {
+		  min = num1
+		  minIndex = point
+	   }
+	}
+	return minIndex
+}
+
 func main() {
 	log.Println("start aoc1")
 
@@ -39,6 +51,25 @@ func main() {
 
 		left = append(left, loc1)
 		right = append(right, loc2)
+	}
+
+	for len(left) > 0 {
+		
+		rang1 := minFind(left)
+		rang2 := minFind(right)
+
+		d := 0
+		if left[rang1] > right[rang2] {
+				d = left[rang1] - right[rang2]
+		} else {
+				d = right[rang2] - left[rang1]
+		}
+
+		log.Println("distance ", d)
+		total += d
+
+		left = delete_at_index(left, rang1)
+		right = delete_at_index(right, rang2)
 	}
 
 	log.Println("total == ", total)
